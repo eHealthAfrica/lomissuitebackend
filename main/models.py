@@ -1,8 +1,9 @@
+import uuid
 from django.db import models
-from django.utils.text import slugify
 
 # Create your models here.
 class AdminLevel(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
     parent_admin_level = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -11,6 +12,7 @@ class AdminLevel(models.Model):
 
 
 class MeasurementUnit(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
     shortname = models.CharField(max_length=150, unique=True)
     parent_unit = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
@@ -21,6 +23,7 @@ class MeasurementUnit(models.Model):
 
 
 class TypeBaseModel(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
@@ -47,6 +50,7 @@ class CustomerType(TypeBaseModel):
 
 
 class Location(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150)
     parent_location = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
     admin_level = models.ForeignKey(AdminLevel, on_delete=models.SET_NULL, null=True, blank=True)
@@ -56,6 +60,7 @@ class Location(models.Model):
 
 
 class Program(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
     shortname = models.CharField(max_length=150, unique=True)
     start_date = models.DateField(blank=True, null=True)
@@ -66,6 +71,7 @@ class Program(models.Model):
 
 
 class Item(models.Model):
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
     shortname = models.CharField(max_length=150, unique=True)
     item_type = models.ForeignKey(ItemType, on_delete=models.SET_NULL, null=True, related_name='item_type_items')
@@ -86,6 +92,7 @@ class Lag(models.Model):
         ('hour', 'Hour'),
         ('day', 'Day'),
     ]
+    id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     name = models.CharField(max_length=150, unique=True)
     on_time_duration = models.IntegerField(default=1)
     on_time_type = models.CharField(max_length=10, choices=LAG_TIME_TYPE_CHOICES)
